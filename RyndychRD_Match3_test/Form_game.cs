@@ -20,7 +20,7 @@ namespace RyndychRD_Match3_test
             main = Form_main;
 
             Draw_game_desk();
-            Figure f = new Figure();
+            Figure_stek f = new Figure_stek();
             f.Fill_table(this);
 
 
@@ -64,58 +64,76 @@ namespace RyndychRD_Match3_test
 
         //TODO Вынести его за пределы этого класса
 
-        private class Figure
+        private class Figure_stek
         {
-            Label[,] figure_arr;
+            Figure[,] figure_arr;
             Random rnd = new Random();
 
-            public Figure()
+            public Figure_stek()
             {
 
             }
 
             public void Fill_table(Form_game form_Game)
             {
-                figure_arr = new Label[form_Game.t_game_desk.ColumnCount, form_Game.t_game_desk.RowCount];
+                figure_arr = new Figure[form_Game.t_game_desk.ColumnCount, form_Game.t_game_desk.RowCount];
                 for (int col = 0; col < form_Game.t_game_desk.ColumnCount; col++)
                 {
                     for (int rows = 0; rows < form_Game.t_game_desk.RowCount; rows++)
                     {
-
-                        Label l = new Label()
-                        {
-                            Margin = new Padding(4, 4, 4, 4),
-                            Dock = DockStyle.Fill,
-
-                        };
-
-                        //TODO заменить на картинки
-                        //TODO добавить дочерний класс с обозначением типа ячейки, пока сделаю на цветах
-                        switch (rnd.Next() % 5)
-                        {
-                            case 0:
-                                l.BackColor = Color.Red;
-                                break;
-                            case 1:
-                                l.BackColor = Color.Blue;
-                                break;
-                            case 2:
-                                l.BackColor = Color.Orange;
-                                break;
-                            case 3:
-                                l.BackColor = Color.Green;
-                                break;
-                            case 4:
-                                l.BackColor = Color.Black;
-                                break;
-                        }
-
-                        figure_arr[rows, col] = l;
-                        form_Game.t_game_desk.Controls.Add(l, col, rows);
+                        figure_arr[rows, col] = new Figure();
+                        form_Game.t_game_desk.Controls.Add(figure_arr[rows, col].getLabel, col, rows);
                     }
                 }
 
             }
+           
+            
+            private class Figure : Figure_stek
+            {
+                Label label = new Label()
+                {
+                    Margin = new Padding(4, 4, 4, 4),
+                    Dock = DockStyle.Fill,
+
+                };
+
+                int type;
+                public Figure()
+                //TODO заменить на картинки
+                {
+                    switch (rnd.Next() % 5)
+                    {
+                        case 0:
+                            label.BackColor = Color.Red;
+                            type = 0;
+                            break;
+                        case 1:
+                            label.BackColor = Color.Blue;
+                            type = 1;
+                            break;
+                        case 2:
+                            label.BackColor = Color.Orange;
+                            type = 2;
+                            break;
+                        case 3:
+                            label.BackColor = Color.Green;
+                            type = 3;
+                            break;
+                        case 4:
+                            label.BackColor = Color.Black;
+                            type = 4;
+                            break;
+                    }
+
+
+                }
+                public Label getLabel
+                {
+                    get => label;
+                }
+            }
+            
 
 
         }
