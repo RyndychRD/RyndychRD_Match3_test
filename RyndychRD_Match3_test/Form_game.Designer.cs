@@ -54,7 +54,7 @@ namespace RyndychRD_Match3_test
             // 
             this.t_game_desk.Location = new System.Drawing.Point(20, 45);
             this.t_game_desk.Name = "t_game_desk";
-            this.t_game_desk.Size = new System.Drawing.Size(400, 456);
+            this.t_game_desk.Size = new System.Drawing.Size(400, 400);
             this.t_game_desk.TabIndex = 2;
             this.t_game_desk.TabStop = false;
             // 
@@ -88,7 +88,7 @@ namespace RyndychRD_Match3_test
             // countdown_timer
             // 
             this.countdown_timer.Interval = 1000;
-            this.countdown_timer.Tick += new System.EventHandler(this.timer1_Tick);
+            this.countdown_timer.Tick += new System.EventHandler(this.countdown_timer_Tick);
             // 
             // countdown_label
             // 
@@ -103,7 +103,7 @@ namespace RyndychRD_Match3_test
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(434, 511);
+            this.ClientSize = new System.Drawing.Size(434, 463);
             this.Controls.Add(this.countdown_label);
             this.Controls.Add(this.score_label);
             this.Controls.Add(this.label2);

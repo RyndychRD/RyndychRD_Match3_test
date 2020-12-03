@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
+
 
 namespace RyndychRD_Match3_test
 {
@@ -17,6 +19,9 @@ namespace RyndychRD_Match3_test
 
         bool is_debag_on = false;
         int s = 60;
+
+        int x_step = 50;
+        int y_step = 50;
 
         public Form_game(Form_main Form_main)
         {
@@ -40,8 +45,7 @@ namespace RyndychRD_Match3_test
             SolidBrush b_light_gray = new SolidBrush(Color.Gray);
 
             //TODO сделать по размеру окна game_desk
-            int x_step = 50;
-            int y_step = 57;
+
             const int count_cell = 8;
             for (int x = 0; x < x_step * count_cell; x += x_step)
             {
@@ -60,7 +64,7 @@ namespace RyndychRD_Match3_test
             t_game_desk.BackgroundImage = bmp;
         }
 
-       //TODO Вынести его за пределы этого класса
+        //TODO Вынести его за пределы этого класса
 
         private class Figure_table
         {
@@ -80,40 +84,53 @@ namespace RyndychRD_Match3_test
             public void Fill_table()
             {
                 //TODO rewrite for random num
-                figure_arr = new Figure[8, 8];
-                for (int row = 0; row < 8; row++)
+                figure_arr = new Figure[10, 10];
+                for (int row = 0; row < 10; row++)
                 {
-                    for (int col = 0; col < 8; col++)
+                    for (int col = 0; col < 10; col++)
                     {
-                        //TODO придумать генерацию маски или создать несколько маск и их применять
+                        if (row == 0 || col == 0 || row == 9 || col == 9)
+                        {
+                            figure_arr[row, col] = new Figure(-1, row, col, this);
+                            continue;
+                        }
                         figure_arr[row, col] = new Figure(rnd.Next() % 5, row, col, this);
-
-                        figure_arr[row, col].label.Location = new Point(23 + col * 50, 48 + row * 57);
+                        figure_arr[row, col].label.Location = new Point(23 + (col - 1) * 50, 48 + (row - 1) * 50);
                         form_Game.Controls.Add(figure_arr[row, col].label);
                         figure_arr[row, col].label.BringToFront();
-
                     }
                 }
+
+                for (int row = 1; row < 9; row++)
+                {
+                    for (int col = 1; col < 9; col++)
+                    {
+                        is_resulted(figure_arr[row, col],false);
+                    }
+                }
+                form_Game.score_label.Text = "0";
+
 
             }
 
             private void swap_figure(Figure figure_1, Figure figure_2)
             {
-
-
-                Figure temp_fig1 = new Figure(figure_1);
-
                 int col1 = figure_1.col;
                 int row1 = figure_1.row;
 
                 int col2 = figure_2.col;
                 int row2 = figure_2.row;
 
-                Label l1 = new Label();
-                l1.BackColor = figure_1.label.BackColor;
-                Label l2 = new Label();
-                l2.BackColor = figure_2.label.BackColor;
+                int temp_col = figure_1.col;
+                figure_1.col = figure_2.col;
+                figure_2.col = temp_col;
 
+                int temp_row = figure_1.row;
+                figure_1.row = figure_2.row;
+                figure_2.row = temp_row;
+
+                figure_arr[row1, col1] = figure_2;
+                figure_arr[row2, col2] = figure_1;
 
 
                 int posx_figure_1 = figure_1.label.Left;
@@ -122,37 +139,51 @@ namespace RyndychRD_Match3_test
                 int posy_figure_1 = figure_1.label.Top;
                 int posy_figure_2 = figure_2.label.Top;
 
-
-
-                figure_arr[row1, col1].label.BackColor = l2.BackColor;
-
-                figure_arr[row2, col2].label.BackColor = l1.BackColor; 
+                figure_2.label.Location = new Point(posx_figure_1, posy_figure_1);
+                figure_1.label.Location = new Point(posx_figure_2, posy_figure_2);
 
 
 
 
-                temp_fig1.col = col2;
-                temp_fig1.row = row2;
-                figure_arr[row2, col2] = temp_fig1;
+            }
 
-                //for(int i=0;i<10;i++)
-                //{
-                //    figure_arr[row1, col1].label.Top = figure_arr[row1, col1].label.Top + (posy_figure_1 - posy_figure_2)/10;
-                //    figure_arr[row2, col2].label.Top = figure_arr[row2, col2].label.Top + (posy_figure_1 - posy_figure_2) / 10;
-                //    figure_arr[row1, col1].label.Left += (posx_figure_1 - posx_figure_2) / 10;
-                //    figure_arr[row2, col2].label.Left += (posx_figure_1 - posx_figure_2) / 10;
-                //    Task.Delay(1000);
-                //}
+            private void move_figure(Figure figure_1, Figure figure_2)
+            {
+                int col1 = figure_1.col;
+                int row1 = figure_1.row;
 
-               // figure_arr[row1, col1].label.Location = new Point(posx_figure_1, posy_figure_1);
-               // figure_arr[row2, col2].label.Location = new Point(posx_figure_2, posy_figure_2);
+                int col2 = figure_2.col;
+                int row2 = figure_2.row;
 
-               
+                int temp_col = figure_1.col;
+                figure_1.col = figure_2.col;
+                figure_2.col = temp_col;
 
-                figure_arr[row1, col1].label.Text = "x=" + figure_arr[row1, col1].col + "; y=" + figure_arr[row1, col1].row;
-                figure_arr[row2, col2].label.Text = "x=" + figure_arr[row2, col2].col + "; y=" + figure_arr[row2, col2].row;
+                int temp_row = figure_1.row;
+                figure_1.row = figure_2.row;
+                figure_2.row = temp_row;
+
+                figure_arr[row1, col1] = figure_2;
+                figure_arr[row2, col2] = figure_1;
 
 
+                int posx_figure_1 = figure_1.label.Left;
+                int posx_figure_2 = figure_2.label.Left;
+
+                int posy_figure_1 = figure_1.label.Top;
+                int posy_figure_2 = figure_2.label.Top;
+
+                for (int i = 0; i < 25; i++)
+                {
+                    figure_1.label.Left += (posx_figure_2 - posx_figure_1) / 25;
+                    figure_2.label.Left += (posx_figure_1 - posx_figure_2) / 25;
+                    figure_1.label.Top += (posy_figure_2 - posy_figure_1) / 25;
+                    figure_2.label.Top += (posy_figure_1 - posy_figure_2) / 25;
+                    form_Game.Refresh();
+                    Thread.Sleep(1);
+                }
+                figure_2.label.Location = new Point(posx_figure_1, posy_figure_1);
+                figure_1.label.Location = new Point(posx_figure_2, posy_figure_2);
             }
 
             private bool is_near(Figure figure_1, Figure figure_2)
@@ -167,31 +198,182 @@ namespace RyndychRD_Match3_test
                 }
             }
 
-            private void Label_Click(object sender, EventArgs e, int row, int col, Figure_table figure_table)
+            private bool is_resulted(Figure figure,  bool is_animated)
             {
-                if (isClickedFirstFigure)
+                int x = figure.col;
+                int y = figure.row;
+
+                List<int> sameX = new List<int>();
+                List<int> sameY = new List<int>();
+
+                int same_type = figure_arr[y, x].type;
+                for (int i = 1; i < 9; i++)
                 {
-                    Figure temp= figure_arr[row, col];
+                    if (figure_arr[y, i].type == same_type)
+                    {
+                        if (sameX.Count == 0)
+                        {
+                            sameX.Add(i);
+                        }
+                        if (i == sameX.Last() + 1)
+                        {
+                            sameX.Add(i);
+                        }
+                    }
+                    else
+                    {
+                        if (sameX.Count() < 3)
+                        {
+                            sameX.Clear();
+                        }
 
-                    figure_arr[row, col].label.Text = "2 click";
+                    }
+                    if (figure_arr[i, x].type == same_type)
+                    {
+                        if (sameY.Count == 0)
+                        {
+                            sameY.Add(i);
+                        }
+                        if (i == sameY.Last() + 1)
+                        {
+                            sameY.Add(i);
+                        }
+                    }
+                    else
+                    {
+                        if (sameY.Count() < 3)
+                        {
+                            sameY.Clear();
+                        }
 
-                    //if (!(form_Game.is_debag_on))
-                    //{
-                    //    if (is_near(figure_first, figure_arr[row, col]))
-                    //    {
-                    //        swap_figure(figure_first, figure_arr[row, col]);
-                    //    }
-                    //}
-                    //else
-                    //{
-                        swap_figure(figure_first, figure_arr[row, col]);
-                   // }
-                    isClickedFirstFigure = false;
-                    figure_first = null;
+                    }
+                }
+                if (sameX.Count > 2 || sameY.Count() > 2)
+                {
+                    delete_resulted_and_spawn_new(x, y, sameX, sameY,  is_animated);
+                    return true;
                 }
                 else
                 {
-                    figure_first = figure_arr[row,col];
+                    return false;
+                }
+            }
+
+            public void delete_resulted_and_spawn_new(int x_figure, int y_figure, List<int> sameX, List<int> sameY,bool is_animated)
+            {
+                if (sameX.Count > 2)
+                {
+                    foreach (int x in sameX)
+                    {
+                        figure_arr[y_figure, x].label.Hide();
+                    }
+                            foreach (int x in sameX)
+                    {
+                        for (int i = y_figure; i > 1; i--)
+                        {
+                            if (is_animated)
+                            {
+                                move_figure(figure_arr[i, x], figure_arr[i - 1, x]);
+                            }
+                            else
+                            {
+                                swap_figure(figure_arr[i, x], figure_arr[i - 1, x]);
+                            }
+
+                        }
+                        figure_arr[1, x].type = rnd.Next() % 5;
+                        figure_arr[1, x].set_type_color(figure_arr[1, x].type);
+                     
+                    }
+                    
+
+                    form_Game.score_label.Text = (Convert.ToInt32(form_Game.score_label.Text) + 100 * sameX.Count).ToString();
+
+                }
+                if (sameY.Count > 2)
+                {
+                    
+                    foreach(int y in sameY)
+                    {
+                        figure_arr[y, x_figure].label.Hide();
+                    }
+
+                    for (int i = 0; i < sameY.Count(); i++)
+                    {
+                        figure_arr[sameY.Last() - i, x_figure].type = rnd.Next() % 5;
+                        figure_arr[sameY.Last() - i, x_figure].set_type_color(figure_arr[sameY.Last() - i, x_figure].type);
+
+                    }
+
+                    for (int i = sameY.Last(); i > sameY.Count(); i--)
+                    {
+                        if (is_animated)
+                        {
+                            // figure_arr[i, x_figure].label.Show();
+
+                             move_figure(figure_arr[i, x_figure], figure_arr[i - sameY.Count(), x_figure]);
+
+                        }
+                        else
+                        {
+                            swap_figure(figure_arr[i, x_figure], figure_arr[i - sameY.Count(), x_figure]);
+                        }
+                    }
+                
+                   
+
+                        form_Game.score_label.Text = (Convert.ToInt32(form_Game.score_label.Text) + 100 * sameY.Count).ToString();
+                }
+                foreach (Figure f in figure_arr)
+                {
+                    f.label.Show();
+                }
+                for (int i = 1; i < 9; i++)
+                {
+                    
+                        is_resulted(figure_arr[i, x_figure], true);
+                        is_resulted(figure_arr[y_figure, i], true);
+                }
+            }
+
+            private void Label_Click(object sender, EventArgs e, Figure figure_in, Figure_table figure_table)
+            {
+                if (isClickedFirstFigure)
+                {
+                    figure_first.label.BorderStyle = System.Windows.Forms.BorderStyle.None;
+                    figure_in.label.Text = "2 click";
+
+                    if (!(form_Game.is_debag_on))
+                    {
+                        if (is_near(figure_first, figure_in))
+                        {
+                            move_figure(figure_first, figure_in);
+                            if (!(is_resulted(figure_first, true) || is_resulted(figure_in, true)))
+                            {
+                                move_figure(figure_first, figure_in);
+                            }
+                            isClickedFirstFigure = false;
+                            figure_first = null;
+                        }
+                        else
+                        {
+                            figure_first = figure_in;
+                            figure_first.label.Text = "1 click";
+                            isClickedFirstFigure = true;
+                        }
+                    }
+                    else
+                    {
+                        swap_figure(figure_first, figure_in);
+                        isClickedFirstFigure = false;
+                        figure_first = null;
+                    }
+
+                }
+                else
+                {
+                    figure_in.label.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+                    figure_first = figure_in;
                     figure_first.label.Text = "1 click";
                     isClickedFirstFigure = true;
                     //TODO light it up
@@ -200,36 +382,47 @@ namespace RyndychRD_Match3_test
 
             }
 
-
             public class Figure
             {
                 public Label label = new Label()
                 {
-                    Size = new Size(45, 52),
+                    Size = new Size(45, 45),
 
                 };
+                public int col;
+                public int row;
 
                 public int type;
 
+                public Figure_table figure_table;
 
-                public int row;
+               
 
-                public int col;
-
-
-
-                public Figure(Figure figure_to_copy)
+                public Figure( Figure figure_in)
                 {
-                    type = figure_to_copy.type;
-                    row = figure_to_copy.row;
-                    col = figure_to_copy.col;
-                    label = figure_to_copy.label;
+
+                    this.label = figure_in.label;
+                    this.col = figure_in.col;
+                    this.row = figure_in.row;
+                    this.type = figure_in.type;
+                    this.figure_table = figure_in.figure_table;
+
                 }
 
-                public Figure(int typeIn, int row_in, int col_in, Figure_table figure_table)
-                {
-                    label.Click += (sender, e) => figure_table.Label_Click(sender, e, this.row, this.col, figure_table);
 
+                public Figure(int typeIn, int row_in, int col_in, Figure_table figure_table_in)
+                {
+
+                    this.set_type_color(typeIn);
+                    row = row_in;
+                    col = col_in;
+                    figure_table = figure_table_in;
+                    label.Click += (sender, e) => figure_table.Label_Click(sender, e, this, figure_table);
+
+
+                }
+                public void set_type_color(int typeIn)
+                {
                     switch (typeIn)
                     {
                         case 0:
@@ -252,14 +445,43 @@ namespace RyndychRD_Match3_test
                             label.BackColor = Color.Black;
                             type = 4;
                             break;
+                        
+                        case -1:
+                            label.Dispose();
+                            type = -1;
+                            break;
                     }
-                    row = row_in;
-                    col = col_in;
+
+                }
+                public class LineBonus : Figure 
+                {
+                    bool dir;// false-col, true-row
+                    Random r = new Random();
+
+                    public LineBonus(Figure figure_in) : base (figure_in)
+                    {
+                        dir = r.Next() % 2==0;  
+                        if (dir)
+                        {
+
+                            label.Text = "Line row";
+                        }
+                        else
+                        {
+                            label.Text = "Line col";
+                        }
+                    }
 
                 }
 
+                public class BombBonus : Figure
+                {
+                    public BombBonus(Figure figure_in) : base(figure_in)
+                    {
+                        label.Text = "BOMB";
+                    }
 
-
+                }
             }
 
 
@@ -282,7 +504,7 @@ namespace RyndychRD_Match3_test
 
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
+        private void countdown_timer_Tick(object sender, EventArgs e)
         {
             s = s - 1;
             this.countdown_label.Text = s.ToString();
@@ -296,6 +518,8 @@ namespace RyndychRD_Match3_test
             }
 
         }
+
+
     }
 
 
