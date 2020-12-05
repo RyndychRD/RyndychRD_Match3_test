@@ -31,6 +31,8 @@ namespace RyndychRD_Match3_test
         {
             this.Form_game_exit = new System.Windows.Forms.Button();
             this.Form_game_debug = new System.Windows.Forms.Button();
+            this.game_desk = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.game_desk)).BeginInit();
             this.SuspendLayout();
             // 
             // Form_game_exit
@@ -41,7 +43,7 @@ namespace RyndychRD_Match3_test
             this.Form_game_exit.TabIndex = 0;
             this.Form_game_exit.Text = "Exit";
             this.Form_game_exit.UseVisualStyleBackColor = true;
-            this.Form_game_exit.Click += new System.EventHandler(this.Form_game_exit_Click);
+            this.Form_game_exit.Click += new System.EventHandler(this.b_Form_game_exit_Click);
             // 
             // Form_game_debug
             // 
@@ -52,16 +54,26 @@ namespace RyndychRD_Match3_test
             this.Form_game_debug.Text = "Debug";
             this.Form_game_debug.UseVisualStyleBackColor = true;
             // 
+            // game_desk
+            // 
+            this.game_desk.Location = new System.Drawing.Point(19, 42);
+            this.game_desk.Name = "game_desk";
+            this.game_desk.Size = new System.Drawing.Size(400, 456);
+            this.game_desk.TabIndex = 2;
+            this.game_desk.TabStop = false;
+            // 
             // Form_game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 511);
+            this.Controls.Add(this.game_desk);
             this.Controls.Add(this.Form_game_debug);
             this.Controls.Add(this.Form_game_exit);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "Form_game";
             this.Text = "Match3_RyndychRD";
+            ((System.ComponentModel.ISupportInitialize)(this.game_desk)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -71,5 +83,6 @@ namespace RyndychRD_Match3_test
 
         private System.Windows.Forms.Button Form_game_exit;
         private System.Windows.Forms.Button Form_game_debug;
+        private System.Windows.Forms.PictureBox game_desk;
     }
 }
