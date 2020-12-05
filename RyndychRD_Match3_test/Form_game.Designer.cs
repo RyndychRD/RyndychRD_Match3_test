@@ -37,6 +37,7 @@ namespace RyndychRD_Match3_test
             this.score_label = new System.Windows.Forms.Label();
             this.countdown_timer = new System.Windows.Forms.Timer(this.components);
             this.countdown_label = new System.Windows.Forms.Label();
+            this.b_refill = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.t_game_desk)).BeginInit();
             this.SuspendLayout();
             // 
@@ -99,11 +100,22 @@ namespace RyndychRD_Match3_test
             this.countdown_label.TabIndex = 9;
             this.countdown_label.Text = "60";
             // 
+            // b_refill
+            // 
+            this.b_refill.Location = new System.Drawing.Point(348, 12);
+            this.b_refill.Name = "b_refill";
+            this.b_refill.Size = new System.Drawing.Size(75, 23);
+            this.b_refill.TabIndex = 10;
+            this.b_refill.Text = "Refill table";
+            this.b_refill.UseVisualStyleBackColor = true;
+            this.b_refill.Click += new System.EventHandler(this.b_refill_Click);
+            // 
             // Form_game
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(434, 463);
+            this.Controls.Add(this.b_refill);
             this.Controls.Add(this.countdown_label);
             this.Controls.Add(this.score_label);
             this.Controls.Add(this.label2);
@@ -128,5 +140,6 @@ namespace RyndychRD_Match3_test
         private System.Windows.Forms.Label score_label;
         private System.Windows.Forms.Timer countdown_timer;
         private System.Windows.Forms.Label countdown_label;
+        private System.Windows.Forms.Button b_refill;
     }
 }
