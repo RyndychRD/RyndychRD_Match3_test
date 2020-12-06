@@ -37,7 +37,7 @@ namespace RyndychRD_Match3_test
         static int destroyer_speed = 2;
         //end of configuration list
 
-        Figure_table f;
+        Figure_table figure_table;
 
         private readonly Form_main main;
 
@@ -57,8 +57,8 @@ namespace RyndychRD_Match3_test
             this.Width = cell_size * count_cell + 17;
             this.Height = cell_size * count_cell + curtain_top.Height + 40;
 
-            f = new Figure_table(this);
-            f.Fill_table();
+            figure_table = new Figure_table(this);
+            figure_table.Fill_table();
             countdown_timer.Start();
 
 
@@ -861,8 +861,8 @@ namespace RyndychRD_Match3_test
         //restart game qiuckly
         private void b_refill_Click(object sender, EventArgs e)
         {
-            this.f.clear_table();
-            this.f.Fill_table();
+            this.figure_table.clear_table();
+            this.figure_table.Fill_table();
             this.l_score.Text = "0";
             s = 60;
             countdown_timer.Start();
