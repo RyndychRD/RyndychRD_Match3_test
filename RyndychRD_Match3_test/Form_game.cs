@@ -401,6 +401,7 @@ namespace RyndychRD_Match3_test
                 Form_Game.Controls.Add(destroyer_2.label);
                 destroyer_1.label.BringToFront();
                 destroyer_2.label.BringToFront();
+                curtain_up();
                
                 //variables used for moving around row or column axes according to line bonus figure
                 int figure_to_destroyer_1_pos;
