@@ -39,6 +39,7 @@ namespace RyndychRD_Match3_test
             this.l_countdown_timer = new System.Windows.Forms.Label();
             this.b_refill = new System.Windows.Forms.Button();
             this.curtain_top = new System.Windows.Forms.PictureBox();
+            this.figure_move_timer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.t_game_desk)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.curtain_top)).BeginInit();
             this.SuspendLayout();
@@ -156,5 +157,6 @@ namespace RyndychRD_Match3_test
         private System.Windows.Forms.Label l_countdown_timer;
         private System.Windows.Forms.Button b_refill;
         private System.Windows.Forms.PictureBox curtain_top;
+        private System.Windows.Forms.Timer figure_move_timer;
     }
 }
