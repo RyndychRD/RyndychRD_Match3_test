@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ColToFall.cs" />
+    <Compile Include="Consts.cs" />
     <Compile Include="Figure.cs" />
     <Compile Include="Figure_table.cs" />
     <Compile Include="Form_game.cs">

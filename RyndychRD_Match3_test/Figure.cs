@@ -14,7 +14,7 @@ namespace RyndychRD_Match3_test
         public Label label = new Label()
         {
             
-            Size = new Size(figure_size, figure_size),
+            Size = new Size(Consts.figure_size, Consts.figure_size),
 
         };
         public int col;
@@ -30,15 +30,15 @@ namespace RyndychRD_Match3_test
 
         public void light_figure()
         {
-            this.label.Size = new Size(cell_size, cell_size);
-            this.label.Location = new Point(this.label.Location.X - (cell_size - figure_size) / 2, this.label.Location.Y - (cell_size - figure_size) / 2);
+            this.label.Size = new Size(Consts.cell_size, Consts.cell_size);
+            this.label.Location = new Point(this.label.Location.X - (Consts.cell_size - Consts.figure_size) / 2, this.label.Location.Y - (Consts.cell_size - Consts.figure_size) / 2);
 
         }
 
         public void unlight_figure()
         {
-            this.label.Size = new Size(figure_size, figure_size);
-            this.label.Location = new Point(this.label.Location.X + (cell_size - figure_size) / 2, this.label.Location.Y + (cell_size - figure_size) / 2);
+            this.label.Size = new Size(Consts.figure_size, Consts.figure_size);
+            this.label.Location = new Point(this.label.Location.X + (Consts.cell_size - Consts.figure_size) / 2, this.label.Location.Y + (Consts.cell_size - Consts.figure_size) / 2);
 
         }
 
@@ -49,7 +49,7 @@ namespace RyndychRD_Match3_test
 
             this.label = new Label();
 
-            label.Size = new Size(figure_size, figure_size);
+            label.Size = new Size(Consts.figure_size, Consts.figure_size);
             label.BackColor = Color.Bisque;
             label.Location = figure_in.label.Location;
             label.Show();

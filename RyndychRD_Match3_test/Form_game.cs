@@ -15,29 +15,11 @@ namespace RyndychRD_Match3_test
 
     public partial class Form_game : Form
     {
-        //start of configuration list
-        
+      
+        //Countdown seconds
         int s = 60;
 
-        const int cell_size = 50;
-
-        const int count_cell = 8;
-
-        const int figure_speed = 2;
-
-        const int step_of_falling = 2;
-
-        const int figure_size = 40;
-
-        const string linebonus_col = "|";
-        const string line_bonus_row = "--";
-        const string bomb_bonus = "*";
-
-        const int destroyer_step = 10;
-        const int destroyer_speed = 2;
-        //end of configuration list
-
-        Figure_table figure_table;
+        public Figure_table figure_table;
 
         private readonly Form_main main;
 
@@ -52,10 +34,10 @@ namespace RyndychRD_Match3_test
 
             Draw_game_desk();
 
-            t_game_desk.Width = cell_size * count_cell;
-            t_game_desk.Height = cell_size * count_cell;
-            this.Width = cell_size * count_cell + 17;
-            this.Height = cell_size * count_cell + curtain_top.Height + 40;
+            t_game_desk.Width = Consts.cell_size * Consts.count_cell;
+            t_game_desk.Height = Consts.cell_size * Consts.count_cell;
+            this.Width = Consts.cell_size * Consts.count_cell + 17;
+            this.Height = Consts.cell_size * Consts.count_cell + curtain_top.Height + 40;
 
             figure_table = new Figure_table(this);
             figure_table.Fill_table();
@@ -72,17 +54,17 @@ namespace RyndychRD_Match3_test
             SolidBrush b_dark_gray = new SolidBrush(Color.DarkGray);
             SolidBrush b_light_gray = new SolidBrush(Color.Gray);
 
-            for (int x = 0; x < cell_size * count_cell; x += cell_size)
+            for (int x = 0; x < Consts.cell_size * Consts.count_cell; x += Consts.cell_size)
             {
-                for (int y = 0; y < cell_size * count_cell; y += cell_size)
+                for (int y = 0; y < Consts.cell_size * Consts.count_cell; y += Consts.cell_size)
                 {
-                    if (((x / cell_size) % 2 == 1) ^ ((y / cell_size) % 2 == 1))
+                    if (((x / Consts.cell_size) % 2 == 1) ^ ((y / Consts.cell_size) % 2 == 1))
                     {
-                        g_game_desk.FillRectangle(b_light_gray, x, y, cell_size, cell_size);
+                        g_game_desk.FillRectangle(b_light_gray, x, y, Consts.cell_size, Consts.cell_size);
                     }
                     else
                     {
-                        g_game_desk.FillRectangle(b_dark_gray, x, y, cell_size, cell_size);
+                        g_game_desk.FillRectangle(b_dark_gray, x, y, Consts.cell_size, Consts.cell_size);
                     }
                 }
             }

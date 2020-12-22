@@ -26,15 +26,15 @@ namespace RyndychRD_Match3_test
         public Figure_table(Form_game form_Game_in)
         {
             Form_Game = form_Game_in;
-            figure_arr = new Figure[count_cell + 2, count_cell + 2];
+            figure_arr = new Figure[Consts.count_cell + 2, Consts.count_cell + 2];
         }
 
         //delete all figures on table
         public void clear_table()
         {
-            for (int row = 0; row < count_cell + 2; row++)
+            for (int row = 0; row < Consts.count_cell + 2; row++)
             {
-                for (int col = 0; col < count_cell + 2; col++)
+                for (int col = 0; col < Consts.count_cell + 2; col++)
                 {
 
                     figure_arr[row, col].label.Dispose();
@@ -50,22 +50,22 @@ namespace RyndychRD_Match3_test
         //formula to get right figure position on chess plate
         private Point get_Location_of_col_and_row(int col, int row)
         {
-            int padding = (cell_size - figure_size) / 2;
+            int padding = (Consts.cell_size - Consts.figure_size) / 2;
 
-            return new Point(Form_Game.t_game_desk.Left + padding + (col - 1) * cell_size,
-                             Form_Game.t_game_desk.Top + padding + (row - 1) * cell_size);
+            return new Point(Form_Game.t_game_desk.Left + padding + (col - 1) * Consts.cell_size,
+                             Form_Game.t_game_desk.Top + padding + (row - 1) * Consts.cell_size);
         }
 
 
         //function to fill table with figures. first and last column and row is used for borders and to make match checking easier
         public void Fill_table()
         {
-            for (int row = 0; row < count_cell + 2; row++)
+            for (int row = 0; row < Consts.count_cell + 2; row++)
             {
 
-                for (int col = 0; col < count_cell + 2; col++)
+                for (int col = 0; col < Consts.count_cell + 2; col++)
                 {
-                    if (row == 0 || col == 0 || row == count_cell + 1 || col == count_cell + 1)
+                    if (row == 0 || col == 0 || row == Consts.count_cell + 1 || col == Consts.count_cell + 1)
                     {
                         figure_arr[row, col] = new Figure(-1, row, col, this);
                         figure_arr[row, col].label.Hide();
@@ -82,9 +82,9 @@ namespace RyndychRD_Match3_test
             }
 
             //checking if after filling we have match already. If so, make figure type to be so that match cannot be
-            for (int row = 1; row < count_cell + 1; row++)
+            for (int row = 1; row < Consts.count_cell + 1; row++)
             {
-                for (int col = 1; col < count_cell + 1; col++)
+                for (int col = 1; col < Consts.count_cell + 1; col++)
                 {
                     //does not used. Made only because of ref argument in function. 
                     List<Figure> temp = new List<Figure>();
@@ -183,7 +183,7 @@ namespace RyndychRD_Match3_test
             }
             //look down
             i = figure.row + 1;
-            while (i < count_cell + 1 && figure_arr[i, figure.col].type == in_figure_type)
+            while (i < Consts.count_cell + 1 && figure_arr[i, figure.col].type == in_figure_type)
             {
                 col_match.Add(i);
                 i++;
@@ -197,7 +197,7 @@ namespace RyndychRD_Match3_test
             }
             //look right
             i = figure.col + 1;
-            while (i < count_cell + 1 && figure_arr[figure.row, i].type == in_figure_type)
+            while (i < Consts.count_cell + 1 && figure_arr[figure.row, i].type == in_figure_type)
             {
                 row_match.Add(i);
                 i++;
@@ -244,15 +244,15 @@ namespace RyndychRD_Match3_test
         //function used for animation of figures falling
         private void move_figures_down(List<Figure> Figure_to_move)
         {
-            for (int count_steps = 0; count_steps < (cell_size / step_of_falling); count_steps++)
+            for (int count_steps = 0; count_steps < (Consts.cell_size / Consts.step_of_falling); count_steps++)
             {
                 foreach (Figure figure in Figure_to_move)
                 {
-                    figure.label.Top += step_of_falling;
+                    figure.label.Top += Consts.step_of_falling;
                 }
                 Form_Game.Refresh();
 
-                Thread.Sleep(figure_speed);
+                Thread.Sleep(Consts.figure_speed);
             }
         }
 
@@ -285,17 +285,17 @@ namespace RyndychRD_Match3_test
             int figure_to_destroyer_2_pos;
 
             //if linebonus is column destroyer bonus
-            if (dir == linebonus_col)
+            if (dir == Consts.linebonus_col)
             {
                 figure_to_destroyer_1_pos = start_figure.row;
                 figure_to_destroyer_2_pos = start_figure.row;
 
                 while (destroyer_1.label.Top > get_Location_of_col_and_row(0, 0).Y ||
-                    destroyer_2.label.Top < get_Location_of_col_and_row(0, count_cell + 2).Y)
+                    destroyer_2.label.Top < get_Location_of_col_and_row(0, Consts.count_cell + 2).Y)
                 {
                     if (destroyer_1.label.Top > get_Location_of_col_and_row(0, 0).Y)
                     {
-                        destroyer_1.label.Top -= destroyer_step;
+                        destroyer_1.label.Top -= Consts.destroyer_step;
                         if (destroyer_1.label.Top < figure_arr[figure_to_destroyer_1_pos, start_figure.col].label.Top &&
                             figure_to_destroyer_1_pos > 0)
                         {
@@ -303,32 +303,32 @@ namespace RyndychRD_Match3_test
                             figure_to_destroyer_1_pos--;
                         }
                     }
-                    if (destroyer_2.label.Top < get_Location_of_col_and_row(count_cell + 2, count_cell + 2).Y)
+                    if (destroyer_2.label.Top < get_Location_of_col_and_row(Consts.count_cell + 2, Consts.count_cell + 2).Y)
                     {
-                        destroyer_2.label.Top += destroyer_step;
+                        destroyer_2.label.Top += Consts.destroyer_step;
                         if (destroyer_2.label.Top > figure_arr[figure_to_destroyer_2_pos, start_figure.col].label.Top &&
-                            figure_to_destroyer_2_pos < count_cell + 1)
+                            figure_to_destroyer_2_pos < Consts.count_cell + 1)
                         {
                             figure_arr[figure_to_destroyer_2_pos, start_figure.col].label.Hide();
                             figure_to_destroyer_2_pos++;
                         }
                     }
                     Form_Game.Refresh();
-                    Thread.Sleep(destroyer_speed);
+                    Thread.Sleep(Consts.destroyer_speed);
                 }
             }
 
             //if linebonus is row destroyer bonus
-            if (dir == line_bonus_row)
+            if (dir == Consts.line_bonus_row)
             {
                 figure_to_destroyer_1_pos = start_figure.col;
                 figure_to_destroyer_2_pos = start_figure.col;
                 while (destroyer_1.label.Left > get_Location_of_col_and_row(0, 0).X ||
-                    destroyer_2.label.Left < get_Location_of_col_and_row(count_cell + 2, count_cell + 2).X)
+                    destroyer_2.label.Left < get_Location_of_col_and_row(Consts.count_cell + 2, Consts.count_cell + 2).X)
                 {
                     if (destroyer_1.label.Left > get_Location_of_col_and_row(0, 0).X)
                     {
-                        destroyer_1.label.Left -= destroyer_step;
+                        destroyer_1.label.Left -= Consts.destroyer_step;
                         if (destroyer_1.label.Left < figure_arr[start_figure.row, figure_to_destroyer_1_pos].label.Left &&
                             figure_to_destroyer_1_pos > 0)
                         {
@@ -336,18 +336,18 @@ namespace RyndychRD_Match3_test
                             figure_to_destroyer_1_pos--;
                         }
                     }
-                    if (destroyer_2.label.Left < get_Location_of_col_and_row(count_cell + 2, count_cell + 2).X)
+                    if (destroyer_2.label.Left < get_Location_of_col_and_row(Consts.count_cell + 2, Consts.count_cell + 2).X)
                     {
-                        destroyer_2.label.Left += destroyer_step;
+                        destroyer_2.label.Left += Consts.destroyer_step;
                         if (destroyer_2.label.Left > figure_arr[start_figure.row, figure_to_destroyer_2_pos].label.Left &&
-                            figure_to_destroyer_2_pos < count_cell + 1)
+                            figure_to_destroyer_2_pos < Consts.count_cell + 1)
                         {
                             figure_arr[start_figure.row, figure_to_destroyer_2_pos].label.Hide();
                             figure_to_destroyer_2_pos++;
                         }
                     }
                     Form_Game.Refresh();
-                    Thread.Sleep(destroyer_speed);
+                    Thread.Sleep(Consts.destroyer_speed);
                 }
 
 
@@ -364,9 +364,9 @@ namespace RyndychRD_Match3_test
             int figures_to_delete_count = figures_to_delete.Count;
             for (int i = 0; i < figures_to_delete_count; i++)
             {
-                if (figures_to_delete[i].bonus == linebonus_col)
+                if (figures_to_delete[i].bonus == Consts.linebonus_col)
                 {
-                    for (int j = 1; j < count_cell + 1; j++)
+                    for (int j = 1; j < Consts.count_cell + 1; j++)
                     {
                         figures_to_delete.Add(figure_arr[j, figures_to_delete[i].col]);
                         figures_to_delete_count++;
@@ -375,9 +375,9 @@ namespace RyndychRD_Match3_test
                     move_destroyer(figures_to_delete[i]);
                     figures_to_delete[i].bonus = null;
                 }
-                if (figures_to_delete[i].bonus == line_bonus_row)
+                if (figures_to_delete[i].bonus == Consts.line_bonus_row)
                 {
-                    for (int j = 1; j < count_cell + 1; j++)
+                    for (int j = 1; j < Consts.count_cell + 1; j++)
                     {
                         figures_to_delete.Add(figure_arr[figures_to_delete[i].row, j]);
                         figures_to_delete_count++;
@@ -387,7 +387,7 @@ namespace RyndychRD_Match3_test
                     move_destroyer(figures_to_delete[i]);
                     figures_to_delete[i].bonus = null;
                 }
-                if (figures_to_delete[i].bonus == bomb_bonus)
+                if (figures_to_delete[i].bonus == Consts.bomb_bonus)
                 {
                     figures_to_delete[i].label.Hide();
                     Form_Game.Refresh();
@@ -415,7 +415,7 @@ namespace RyndychRD_Match3_test
         //change figure to line bonus
         private Figure make_line_bonus(Figure last_figure)
         {
-            last_figure.bonus = rnd.Next() % 2 == 0 ? linebonus_col : line_bonus_row;
+            last_figure.bonus = rnd.Next() % 2 == 0 ? Consts.linebonus_col : Consts.line_bonus_row;
             last_figure.label.Text = last_figure.bonus;
             last_figure.label.ForeColor = Color.White;
             last_figure.label.Font = new Font("Tobota", 25, FontStyle.Regular);
@@ -425,7 +425,7 @@ namespace RyndychRD_Match3_test
         //change figure to bomb bonus
         private Figure make_bomb_bonus(Figure last_figure)
         {
-            last_figure.bonus = bomb_bonus;
+            last_figure.bonus = Consts.bomb_bonus;
             last_figure.label.Text = last_figure.bonus;
             last_figure.label.ForeColor = Color.White;
             last_figure.label.Font = new Font("Tobota", 25, FontStyle.Regular);
@@ -437,7 +437,7 @@ namespace RyndychRD_Match3_test
         private void delete_resulted_and_spawn_new(List<Figure> figures_to_delete, Figure last_figure)
         {
 
-            ColToFall[] colToFalls = new ColToFall[count_cell + 2];
+            ColToFall[] colToFalls = new ColToFall[Consts.count_cell + 2];
             for (int i = 0; i < colToFalls.Length; i++)
             {
                 colToFalls[i] = new ColToFall();
@@ -515,9 +515,9 @@ namespace RyndychRD_Match3_test
             } while (is_any_left);
 
             //check if any new match appeared
-            for (int i = 1; i < count_cell + 1; i++)
+            for (int i = 1; i < Consts.count_cell + 1; i++)
             {
-                for (int j = 1; j < count_cell + 1; j++)
+                for (int j = 1; j < Consts.count_cell + 1; j++)
                 {
 
                     find_match3_and_match_it(figure_arr[i, j]);
