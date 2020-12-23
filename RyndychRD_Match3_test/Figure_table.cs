@@ -15,7 +15,7 @@ namespace RyndychRD_Match3_test
     {
         //Matrix of figures, which contain each playable figure and using for figure right switching and deleting
         Figure[,] figure_arr;
-        Random rnd = new Random();
+        public Random rnd = new Random();
 
         //variables to know if we have already clicked on figure and which figure it is
         Figure figure_first;
@@ -28,6 +28,8 @@ namespace RyndychRD_Match3_test
             Form_Game = form_Game_in;
             figure_arr = new Figure[Consts.count_cell + 2, Consts.count_cell + 2];
         }
+
+
 
         //delete all figures on table
         public void clear_table()

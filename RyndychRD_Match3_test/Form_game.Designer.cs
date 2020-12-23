@@ -148,15 +148,15 @@ namespace RyndychRD_Match3_test
 
 
         #endregion
-        private System.Windows.Forms.Button b_debug;
-        private System.Windows.Forms.PictureBox t_game_desk;
-        private System.Windows.Forms.Label l_countdown_timer_text;
-        private System.Windows.Forms.Label l_score_text;
-        private System.Windows.Forms.Label l_score;
-        private System.Windows.Forms.Timer countdown_timer;
-        private System.Windows.Forms.Label l_countdown_timer;
-        private System.Windows.Forms.Button b_refill;
-        private System.Windows.Forms.PictureBox curtain_top;
-        private System.Windows.Forms.Timer figure_move_timer;
+        public System.Windows.Forms.Button b_debug;
+        public System.Windows.Forms.PictureBox t_game_desk;
+        public System.Windows.Forms.Label l_countdown_timer_text;
+        public System.Windows.Forms.Label l_score_text;
+        public System.Windows.Forms.Label l_score;
+        public System.Windows.Forms.Timer countdown_timer;
+        public System.Windows.Forms.Label l_countdown_timer;
+        public System.Windows.Forms.Button b_refill;
+        public System.Windows.Forms.PictureBox curtain_top;
+        public System.Windows.Forms.Timer figure_move_timer;
     }
 }

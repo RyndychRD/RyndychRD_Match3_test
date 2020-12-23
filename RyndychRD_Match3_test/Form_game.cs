@@ -23,7 +23,7 @@ namespace RyndychRD_Match3_test
 
         private readonly Form_main main;
 
-        bool is_debag_on;
+        public bool is_debag_on;
 
 
         public Form_game(Form_main Form_main)
